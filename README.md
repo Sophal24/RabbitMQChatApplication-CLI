@@ -1,11 +1,11 @@
 # RabbitMQ Chat Application
-Compilation
+Compilation (open one terminal)
 run *`./compile`*
 
-Server
+Server (open one terminal)
 run *`./server`*
 
-Client
+Client (open one terminal - open more terminals for more clients)
 run *`./client`*
 
 ## **Note**
