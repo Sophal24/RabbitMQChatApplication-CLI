@@ -63,10 +63,9 @@ public class Client {
 			while (connected) {
 				String msg = s.nextLine();
 				if(msg.equals("exit")){
-					System.out.println("quit from while!!! 111111");
 					client.sendMessage("exit", "");
 					connected = false;
-					break;
+					System.exit(1);
 				}else{
 					client.sendMessage("broadcast", msg);
 				}
@@ -92,7 +91,6 @@ public class Client {
 				break;
 
 			case "exit":
-				System.out.println("quit from switch!!! 222222");
 				String leaveMsg = "[" + time + "] " + username + " left the room!";
 				channel.basicPublish(EXCHANGE_ROOM, "", null, leaveMsg.getBytes("UTF-8"));
 				break;
