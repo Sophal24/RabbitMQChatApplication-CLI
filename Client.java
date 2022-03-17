@@ -11,7 +11,6 @@ public class Client {
 	private static String username;
 
 	private static final String EXCHANGE_ROOM = "roomTopic";
-	private static final String EXCHANGE_SERVER = "serverTopic";
 
 	public Client() throws IOException, TimeoutException {
 		ConnectionFactory factory = new ConnectionFactory();
@@ -21,7 +20,6 @@ public class Client {
 		channel = connection.createChannel();
 
 		channel.exchangeDeclare(EXCHANGE_ROOM, "topic");
-		channel.exchangeDeclare(EXCHANGE_SERVER, "topic");
 	}
 
 	public static void main(String[] argv) throws Exception {
@@ -49,7 +47,7 @@ public class Client {
 
 			// Binding queue to exchanges
 			client.channel.queueBind(queueName, EXCHANGE_ROOM, "");
-			client.channel.queueBind(queueName, EXCHANGE_SERVER, username);
+			client.channel.queueBind(queueName, EXCHANGE_ROOM, username);
 
 			// start consuming callback
 			client.channel.basicConsume(queueName, true, deliverCallback, consumerTag -> {

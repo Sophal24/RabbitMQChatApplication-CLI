@@ -10,7 +10,6 @@ public class Server {
     private Channel channel;
 
     private static final String EXCHANGE_ROOM = "roomTopic";
-    private static final String EXCHANGE_SERVER = "serverTopic";
 
     private static final String QUEUE_SERVER = "serverQueue";
 
@@ -32,7 +31,7 @@ public class Server {
         connection = factory.newConnection();
         channel = connection.createChannel();
 
-        channel.exchangeDeclare(EXCHANGE_SERVER, "topic");
+        channel.exchangeDeclare(EXCHANGE_ROOM, "topic");
         channel.queueDeclare(QUEUE_SERVER, false, false, false, null);
 
     }
@@ -51,9 +50,9 @@ public class Server {
                 String message = new String(delivery.getBody(), "UTF-8");
                 if (message.endsWith(", welcome to chat server !")) {
                     String[] params = message.split(" ");
-                    server.channel.basicPublish(EXCHANGE_SERVER, params[1], null,
+                    server.channel.basicPublish(EXCHANGE_ROOM, params[1], null,
                             (history).getBytes("UTF-8"));
-                } else {
+                } else if (!message.endsWith("left the room!")) {
                     writeChatHistory(message);
                 }
             };
@@ -90,7 +89,7 @@ public class Server {
                 load = load + str + "\n";
             }
         }
-        return load;
+        return load.trim(); // Clear \n for the last line
     }
 
 }
